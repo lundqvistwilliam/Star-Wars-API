@@ -120,10 +120,10 @@ class Character{
                 const infoStr = `Name: ${name}<br>
                                   <img src="${pictureURL}">
                                   `
-                                  // infoContainer1.innerHTML = infoStr; 
                                   console.log(character1)
                                   document.getElementById("cardImage1").src=`${pictureURL}`
                                   document.getElementById("name1").innerHTML=`${name}`
+                                  document.getElementById("name1").style.color="black";
               });
              
               
@@ -189,12 +189,12 @@ class Character{
                           pictureURL = "assets/obi-wan-kenobi.jpeg";
                           break;
                   }
-                  character2 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,`${filmTitlesArr}`,`${pictureURL}`)
+                  character2 = new Character(`${name}`,`${gender}`, +mass,`${hairColor}`,+height,`${skinColor}`,`${eyeColor}`,`${filmTitlesArr}`,`${pictureURL}`)
                   const infoStr = `Name: ${name}<br>
                                     <img src="${pictureURL}">`;
-                  // infoContainer2.innerHTML = infoStr;
                   document.getElementById("cardImage2").src=`${pictureURL}`
                   document.getElementById("name2").innerHTML=`${name}`
+                  document.getElementById("name2").style.color="black";
                   console.log(character2)
                 });
               })
@@ -275,11 +275,9 @@ class Character{
                                   Hair color: ${hairColor}<br>
                                   Skin color: ${skinColor}<br>
                                   Eye color: ${eyeColor}<br>
-                                  Films: ${filmTitlesArr.join(", ")}<br>
+                                  Films: ${filmTitlesArr.join(" , ")}<br>
                                   <img src="${pictureURL}">
                                   `
-                                  // infoContainer1.innerHTML = infoStr; 
-                                  console.log(character1)
                                   document.getElementById("cardImage1").src=`${pictureURL}`
                                   document.getElementById("name1").innerHTML=`${name}`
                                   document.getElementById("gender1").innerHTML=`${gender}`
@@ -288,7 +286,13 @@ class Character{
                                   document.getElementById("height1").innerHTML=`${height}`
                                   document.getElementById("skinColor1").innerHTML=`${skinColor}`
                                   document.getElementById("eyeColor1").innerHTML=`${eyeColor}`
-                                  document.getElementById("movies1").innerHTML=`${filmTitlesArr}`
+                                  for(let i=0;i<filmTitlesArr.length;i++){
+                                    let li = document.createElement("li");
+                                    li.innerHTML=filmTitlesArr;
+                                    document.getElementById("movies1").append("li")
+                                  }
+                                  document.getElementById("movies1").innerHTML=`${filmTitlesArr}  (${filmTitlesArr.length})`
+                                  
 
               });
             })
@@ -296,6 +300,8 @@ class Character{
         } else {
           infoContainer1.innerHTML = "";
         }
+        setGradients();
+
       
         if (selectedUrl2) {
           fetch(selectedUrl2)
@@ -354,6 +360,7 @@ class Character{
                         break;
                 }
                 character2 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,`${filmTitlesArr}`,`${pictureURL}`)
+                console.log(character2.movies)
                 const infoStr = `Name: ${name}<br>
                                   Gender: ${gender}<br>
                                   Height: ${height}cm<br>
@@ -361,10 +368,9 @@ class Character{
                                   Hair color: ${hairColor}<br>
                                   Skin color: ${skinColor}<br>
                                   Eye color: ${eyeColor}<br>
-                                  Films: ${filmTitlesArr.join(", ")}<br>
+                                  Films: ${filmTitlesArr.join(" , ")}<br>
                                   <img src="${pictureURL}">`;
-                // infoContainer2.innerHTML = infoStr;
-                console.log(character2)
+                console.log("CH2" + character2)
                 document.getElementById("cardImage2").src=`${pictureURL}`
                 document.getElementById("name2").innerHTML=`${name}`
                 document.getElementById("gender2").innerHTML=`${gender}`
@@ -373,7 +379,7 @@ class Character{
                 document.getElementById("height2").innerHTML=`${height}`
                 document.getElementById("skinColor2").innerHTML=`${skinColor}`
                 document.getElementById("eyeColor2").innerHTML=`${eyeColor}`
-                document.getElementById("movies2").innerHTML=`${filmTitlesArr}`
+                document.getElementById("movies2").innerHTML=`${filmTitlesArr}  (${filmTitlesArr.length})`
 
 
 
@@ -383,4 +389,79 @@ class Character{
         } else {
           infoContainer2.innerHTML = "";
         }
+        setGradients();
       });
+
+
+function setGradients(){
+
+  if(character1.gender === character2.gender){
+    document.getElementById("genderTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "green" + ")";
+  } else {
+    document.getElementById("genderTexts").style.background ="orange";
+  }
+
+  if(+character1.mass > character2.mass){
+    document.getElementById("massTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
+  } else if(+character2.mass > character1.mass) {
+    document.getElementById("massTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
+  }  else {
+    document.getElementById("massTexts").style.background ="orange";
+
+  }
+
+  if(character1.hairColor === character2.hairColor){
+    document.getElementById("hairColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    document.getElementById("hairColor1").style.color="white"
+    document.getElementById("hairColor2").style.color="white"
+  } else {
+    document.getElementById("hairColorTexts").style.background ="orange";
+    document.getElementById("hairColor1").style.color="white"
+    document.getElementById("hairColor2").style.color="white"
+  }
+  
+
+  if(+character1.height > character2.height){
+    document.getElementById("height2").style.color = "white";
+    document.getElementById("height1").style.color = "white";
+    document.getElementById("heightTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
+  } else if(+character2.height > character1.height) {
+    document.getElementById("height2").style.color = "white";
+    document.getElementById("height1").style.color = "white";
+    document.getElementById("heightTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
+  } 
+
+  if(character1.skinColor === character2.skinColor){
+    document.getElementById("skinColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    document.getElementById("skinColor1").style.color="white"
+    document.getElementById("skinColor2").style.color="white"
+  } else {
+    document.getElementById("skinColorTexts").style.background ="orange";
+    document.getElementById("skinColor1").style.color="white"
+    document.getElementById("skinColor2").style.color="white"
+  }
+
+  if(character1.eyeColor === character2.eyeColor){
+    document.getElementById("eyeColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    document.getElementById("eyeColor1").style.color="white"
+    document.getElementById("eyeColor2").style.color="white"
+  } else {
+    document.getElementById("eyeColorTexts").style.background ="orange";
+    document.getElementById("eyeColor1").style.color="white"
+    document.getElementById("eyeColor2").style.color="white"
+  }
+
+  // if(character1.filmTitlesArr.length > character2.filmTitlesArr.length){
+  //   document.getElementById("movieTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+  //   document.getElementById("movies1").style.color="white"
+  //   document.getElementById("movies2").style.color="white"
+  // }else if(character2.filmTitlesArr.length > character1.filmTitlesArr.length) {
+  //   document.getElementById("movieTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "green" + ")";
+  //   document.getElementById("movie1").style.color="white"
+  //   document.getElementById("movie2").style.color="white"
+  // } else {
+  //   document.getElementById("movieTexts").style.background ="orange";
+
+  // }
+}
+
