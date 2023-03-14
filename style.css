@@ -1,3 +1,6 @@
+body {
+    background-color: #1F1B24;
+}
 #container {
     width: 100%;
     height: 90px;
@@ -14,6 +17,10 @@
    justify-self: center;
    align-self: flex-end;
 }
+#getDataBtn {
+    justify-self: center;
+    align-self: flex-end;
+ }
 
 #character-box {
     display: flex;
@@ -34,7 +41,7 @@ img {
 }
 
 #info-container1{
-    border: 2px solid yellow;
+    border: 2px solid lightgrey;
     height: 500px;
     width: 30%;
     padding: 10px;
@@ -45,4 +52,51 @@ img {
     width: 30%;
     padding: 10px;
     background-color: aliceblue;
+}
+
+
+#wrapperCard {
+    display: flex;
+    justify-content:center;
+  }
+  
+  #card {
+    width: 450px;
+    height: 940px;
+    background-color:grey;
+  }
+  
+  #imageDiv {
+    width: 100%;
+    height:30%;
+    background-color:lightgray;
+   
+  }
+  
+#images {
+     display:flex;
+     flex-direction:row;
+     height: 100%;
+     width: 100%;
+     justify-content: space-around;
+}
+  
+  #statsDiv{
+    width: 100%;
+    height:70%;
+    border: 2px solid grey;
+    background: white;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 5px;
+}
+
+.cardImage {
+    height: 100%;
+    width: 45%;
+    gap:10px;
 }
