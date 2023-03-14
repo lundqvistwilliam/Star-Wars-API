@@ -120,7 +120,7 @@ class Character{
                 const infoStr = `Name: ${name}<br>
                                   <img src="${pictureURL}">
                                   `
-                                  infoContainer1.innerHTML = infoStr; 
+                                  // infoContainer1.innerHTML = infoStr; 
                                   console.log(character1)
                                   document.getElementById("cardImage1").src=`${pictureURL}`
                                   document.getElementById("name1").innerHTML=`${name}`
@@ -192,7 +192,7 @@ class Character{
                   character2 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,`${filmTitlesArr}`,`${pictureURL}`)
                   const infoStr = `Name: ${name}<br>
                                     <img src="${pictureURL}">`;
-                  infoContainer2.innerHTML = infoStr;
+                  // infoContainer2.innerHTML = infoStr;
                   document.getElementById("cardImage2").src=`${pictureURL}`
                   document.getElementById("name2").innerHTML=`${name}`
                   console.log(character2)
@@ -278,7 +278,7 @@ class Character{
                                   Films: ${filmTitlesArr.join(", ")}<br>
                                   <img src="${pictureURL}">
                                   `
-                                  infoContainer1.innerHTML = infoStr; 
+                                  // infoContainer1.innerHTML = infoStr; 
                                   console.log(character1)
                                   document.getElementById("cardImage1").src=`${pictureURL}`
                                   document.getElementById("name1").innerHTML=`${name}`
@@ -363,7 +363,7 @@ class Character{
                                   Eye color: ${eyeColor}<br>
                                   Films: ${filmTitlesArr.join(", ")}<br>
                                   <img src="${pictureURL}">`;
-                infoContainer2.innerHTML = infoStr;
+                // infoContainer2.innerHTML = infoStr;
                 console.log(character2)
                 document.getElementById("cardImage2").src=`${pictureURL}`
                 document.getElementById("name2").innerHTML=`${name}`

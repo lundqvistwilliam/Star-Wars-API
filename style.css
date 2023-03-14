@@ -58,12 +58,14 @@ img {
 #wrapperCard {
     display: flex;
     justify-content:center;
+    margin-top: 10px;
   }
   
   #card {
     width: 450px;
     height: 940px;
     background-color:grey;
+    border-radius: 10px;
   }
   
   #imageDiv {
@@ -99,4 +101,17 @@ img {
     height: 100%;
     width: 45%;
     gap:10px;
+}
+
+#selections {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+#useButtons {
+    display: flex;
+    justify-content: center;
+    gap:20px;
+    margin: 10px;
 }
