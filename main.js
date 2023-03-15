@@ -155,11 +155,15 @@ class Character{
       document.getElementById("height1").innerHTML=`${character1.height}`
       document.getElementById("skinColor1").innerHTML=`${character1.skinColor}`
       document.getElementById("eyeColor1").innerHTML=`${character1.eyeColor}`
+
+      const movies1 = document.getElementById("movies1")
+
+      movies1.innerHTML=""
      
       for(let i=0; i < character1.movies.length; i++) {
         let li = document.createElement("li");
         li.textContent = character1.movies[i];
-        document.getElementById("movies1").appendChild(li);
+        movies1.appendChild(li);
       }
       let totalLi1 = document.createElement("li");
       totalLi1.innerHTML = "Total: " + character1.movies.length;
@@ -174,10 +178,14 @@ class Character{
       document.getElementById("height2").innerHTML=`${character2.height}`
       document.getElementById("skinColor2").innerHTML=`${character2.skinColor}`
       document.getElementById("eyeColor2").innerHTML=`${character2.eyeColor}`
+
+      const movies2 = document.getElementById("movies2")
+      movies2.innerHTML=""
+
       for(let i=0; i < character2.movies.length; i++) {
         let li = document.createElement("li");
         li.textContent = character1.movies[i];
-        document.getElementById("movies2").appendChild(li);
+        movies2.appendChild(li);
       }
       let totalLi2 = document.createElement("li");
       totalLi2.innerHTML = "Total: " + character2.movies.length;
