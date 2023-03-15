@@ -119,3 +119,7 @@ img {
 .text {
     color: white;
 }
+
+li {
+    margin: 7px;
+}
