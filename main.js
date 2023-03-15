@@ -145,9 +145,14 @@ class Character{
         
     
     compareBtn.addEventListener("click", () => {
+      updateCharacter1Information();  
+      updateCharacter2Information();
+      setGradients();  
+    });
 
-      // char 1
-      document.getElementById("cardImage1").src=`${character1.pictureURL}`
+    
+function updateCharacter1Information(){
+  document.getElementById("cardImage1").src=`${character1.pictureURL}`
       document.getElementById("name1").innerHTML=`${character1.name}`
       document.getElementById("gender1").innerHTML=`${character1.gender}`
       document.getElementById("mass1").innerHTML=`${character1.mass}`  
@@ -166,32 +171,32 @@ class Character{
       }
       let totalLi1 = document.createElement("li");
       totalLi1.innerHTML = "Total: " + character1.movies.length;
-      movies1.append(totalLi1);      
+      movies1.append(totalLi1); 
+}
 
-      // char 2
-      document.getElementById("cardImage2").src=`${character2.pictureURL}`
-      document.getElementById("name2").innerHTML=`${character2.name}`
-      document.getElementById("gender2").innerHTML=`${character2.gender}`
-      document.getElementById("mass2").innerHTML=`${character2.mass}`
-      document.getElementById("hairColor2").innerHTML=`${character2.hairColor}`
-      document.getElementById("height2").innerHTML=`${character2.height}`
-      document.getElementById("skinColor2").innerHTML=`${character2.skinColor}`
-      document.getElementById("eyeColor2").innerHTML=`${character2.eyeColor}`
+function updateCharacter2Information(){
+  document.getElementById("cardImage2").src=`${character2.pictureURL}`
+  document.getElementById("name2").innerHTML=`${character2.name}`
+  document.getElementById("gender2").innerHTML=`${character2.gender}`
+  document.getElementById("mass2").innerHTML=`${character2.mass}`
+  document.getElementById("hairColor2").innerHTML=`${character2.hairColor}`
+  document.getElementById("height2").innerHTML=`${character2.height}`
+  document.getElementById("skinColor2").innerHTML=`${character2.skinColor}`
+  document.getElementById("eyeColor2").innerHTML=`${character2.eyeColor}`
 
-      const movies2 = document.getElementById("movies2")
-      movies2.innerHTML=""
-     
-      for(let i=0; i < character2.movies.length; i++) {
-        let li = document.createElement("li");
-        li.textContent = character2.movies[i];
-        movies2.appendChild(li);
-      }
-      let totalLi2 = document.createElement("li");
-      totalLi2.innerHTML = "Total: " + character2.movies.length;
-      movies2.append(totalLi2); 
+  const movies2 = document.getElementById("movies2")
+  movies2.innerHTML=""
+ 
+  for(let i=0; i < character2.movies.length; i++) {
+    let li = document.createElement("li");
+    li.textContent = character2.movies[i];
+    movies2.appendChild(li);
+  }
+  let totalLi2 = document.createElement("li");
+  totalLi2.innerHTML = "Total: " + character2.movies.length;
+  movies2.append(totalLi2); 
 
-      setGradients();  
-    });
+}
 
 
 function setGradients(){
