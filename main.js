@@ -157,7 +157,6 @@ class Character{
       document.getElementById("eyeColor1").innerHTML=`${character1.eyeColor}`
 
       const movies1 = document.getElementById("movies1")
-
       movies1.innerHTML=""
      
       for(let i=0; i < character1.movies.length; i++) {
@@ -181,15 +180,15 @@ class Character{
 
       const movies2 = document.getElementById("movies2")
       movies2.innerHTML=""
-
+     
       for(let i=0; i < character2.movies.length; i++) {
         let li = document.createElement("li");
-        li.textContent = character1.movies[i];
+        li.textContent = character2.movies[i];
         movies2.appendChild(li);
       }
       let totalLi2 = document.createElement("li");
       totalLi2.innerHTML = "Total: " + character2.movies.length;
-      movies2.append(totalLi2);
+      movies2.append(totalLi2); 
 
       setGradients();  
     });
