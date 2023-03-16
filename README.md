@@ -4,3 +4,5 @@
 
 Använd följande API: https://swapi.dev
 
+## GITHUB PAGES LINK: https://lundqvistwilliam.github.io/Star-Wars-API/
+
