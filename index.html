@@ -6,32 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+  />
 </head>
 <body>
-   
-    <!-- <div id="character-box">
-        <div id="wrapper">
-    <select id="character1-select">
-        <option value="" disabled selected>Select a character...</option>
-      </select>
-    <div id="info-container1"></div>
-    <select id="character2-select">
-        <option value="" disabled selected>Select a character...</option>
-    </select>
-    <div id="info-container2"></div> -->
-
+    <a href="https://github.com/lundqvistwilliam/Star-Wars-API" target="_blank">
+        GitHub
+    <i class="fa-brands fa-github"></i>
+</a>
+    <h1 id="titleText">Star Wars Compare</h1>
 <div id="selections">
-<select id="character1-select">
+<select id="character1-select" class="select">
     <option value="" disabled selected>Select a character...</option>
   </select>
-  <select id="character2-select">
+  <select id="character2-select" class="select">
     <option value="" disabled selected>Select a character...</option>
 </select>
 </div>
 <div id="useButtons">
-    <button id="compareBtn">Compare!</button>
-    <button id="getDataBtn">Get data</button>
+    <button id="compareBtn" disabled><b>Compare!</b></button>
+    <button id="getDataBtn" disabled>Get data</button>
 </div>
+<p id="loadingText" style="display:none;">Loading information..</p>
 </div>
 <div id="wrapperCard">  
     <div id="card">

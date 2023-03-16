@@ -13,25 +13,45 @@ class Character{
     }
 }
 
+let compareBtn = document.getElementById("compareBtn");
+let getDataBtn = document.getElementById("getDataBtn");
+let loadingText = document.getElementById("loadingText");
 
-  const characterSelect1 = document.getElementById("character1-select");
-  const infoContainer1 = document.getElementById("info-container1");
+let fetchCounter = 0;
 
-  const characterSelect2 = document.getElementById("character2-select");
-  const infoContainer2 = document.getElementById("info-container2");
-  let compareBtn = document.getElementById("compareBtn");
-  let getDataBtn = document.getElementById("getDataBtn");
+// Variables for stats text
+let massTexts = document.getElementById("massTexts");
+let hairColorTexts = document.getElementById("hairColorTexts");
+let heightTexts = document.getElementById("heightTexts");
+let skinColorTexts = document.getElementById("skinColorTexts");
+let eyeColorTexts = document.getElementById("eyeColorTexts");
+let moviesTexts = document.getElementById("moviesTexts");
 
-  let character1;
-  let character2;
 
-  let cardImage1 = document.getElementById("cardImage1")
-  let cardImage2 = document.getElementById("cardImage2")
+// Variables related to character 1
+let character1;
+const characterSelect1 = document.getElementById("character1-select");
+let cardImage1 = document.getElementById("cardImage1");
+let name1 = document.getElementById("name1");
+let gender1 = document.getElementById("gender1");
+let mass1 = document.getElementById("mass1");
+let hairColor1 = document.getElementById("hairColor1");
+let height1 = document.getElementById("height1");
+let skinColor1 = document.getElementById("skinColor1");
+let eyeColor1 = document.getElementById("eyeColor1");
 
-  let dataGot = false;
-  if(dataGot === false){
-    compareBtn.disabled=true;
-  }
+
+// Variables related to character 2
+let character2;
+const characterSelect2 = document.getElementById("character2-select");
+let cardImage2 = document.getElementById("cardImage2");
+let name2 = document.getElementById("name2");
+let gender2 = document.getElementById("gender2");
+let mass2 = document.getElementById("mass2");
+let hairColor2 = document.getElementById("hairColor2");
+let height2 = document.getElementById("height2");
+let skinColor2 = document.getElementById("skinColor2");
+let eyeColor2 = document.getElementById("eyeColor2");
 
 
   fetch("https://swapi.dev/api/people/")
@@ -44,14 +64,15 @@ class Character{
     characterSelect2.innerHTML += options.join('');
   })
   .catch(error => console.error(error));
-
-    getDataBtn.addEventListener("click", () => {
-        const selectedUrl1 = characterSelect1.value;
-        const selectedUrl2 = characterSelect2.value;
-        console.log(selectedUrl1)
-        console.log(selectedUrl2)
-
-        const characterImageUrls = {
+  
+  characterSelect1.addEventListener("change", disableCompareBtn);
+  characterSelect2.addEventListener("change", disableCompareBtn);
+  
+  getDataBtn.addEventListener("click", () => {
+      const selectedUrl1 = characterSelect1.value;
+      const selectedUrl2 = characterSelect2.value;
+      
+      const characterImageUrls = {
           "https://swapi.dev/api/people/1/": "assets/luke-skywalker.jpeg",
           "https://swapi.dev/api/people/2/": "assets/c3po.jpeg",
           "https://swapi.dev/api/people/3/": "assets/r2d2.jpeg",
@@ -62,61 +83,72 @@ class Character{
           "https://swapi.dev/api/people/8/": "assets/r5-d4.jpeg",
           "https://swapi.dev/api/people/9/": "assets/biggs-darklighter.jpeg",
           "https://swapi.dev/api/people/10/": "assets/obi-wan-kenobi.jpeg",
-        };
+      };
         
-        if (selectedUrl1) {
-          fetch(selectedUrl1)
-            .then(response => response.json())
-            .then(data => {
-              const {
-                name,
-                gender,
-                height,
-                mass,
-                hair_color: hairColor,
-                skin_color: skinColor,
-                eye_color: eyeColor,
-                films
-              } = data;
+      if (selectedUrl1) {
+        showLoadingText();
+        fetch(selectedUrl1)
+          .then(response => response.json())
+          .then(data => {
+            const {
+              name,
+              gender,
+              height,
+              mass,
+              hair_color: hairColor,
+              skin_color: skinColor,
+              eye_color: eyeColor,
+              films
+            } = data;
         
-              const filmTitles = films.map(filmUrl => {
-                return fetch(filmUrl)
-                  .then(response => response.json())
-                  .then(data => data.title)
-                  .catch(error => console.error(error));
-              });
+            const filmTitles = films.map(filmUrl => {
+              return fetch(filmUrl)
+                .then(response => response.json())
+                .then(data => data.title)
+                .catch(error => console.error(error));
+            });
         
-              Promise.all(filmTitles)
-                .then(filmTitlesArr => {
-                  const pictureURL = characterImageUrls[selectedUrl1] || "assets/star-wars-logo";
-                  character1 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,filmTitlesArr,`${pictureURL}`)
-                  console.log(character1)
-                  document.getElementById("cardImage1").src=`${pictureURL}`
-                  document.getElementById("name1").innerHTML=`${name}`
-                  document.getElementById("name1").style.color="black";
+            Promise.all(filmTitles)
+              .then(filmTitlesArr => {
+                const pictureURL = characterImageUrls[selectedUrl1] || "assets/star-wars-logo";
+                character1 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,filmTitlesArr,`${pictureURL}`)
+                console.log(character1)
+                cardImage1.src=`${pictureURL}`
+                name1.innerHTML=`${name}`
+                name1.style.color="black";
+                loadingText.style.display="none"
+
+                fetchCounter++;
+                if(fetchCounter===2){
+                  hideLoadingText();
                   compareBtn.disabled=false;
-                })
+                  fetchCounter=0;
+                }
+
+            })
                 .catch(error => console.error(error));
             })
-            .catch(error => console.error(error));
-        } else {
-          infoContainer1.innerHTML = "";
-        }
+            .catch(error => {
+              loadingText.style.display = "block";
+              loadingText.innerHTML = "Failed to load information. Refresh the site and try again.";
+            });
+        } 
 
-        if (selectedUrl2) {
-          fetch(selectedUrl2)
-            .then(response => response.json())
-            .then(data => {
-              const {
-                name,
-                gender,
-                height,
-                mass,
-                hair_color: hairColor,
-                skin_color: skinColor,
-                eye_color: eyeColor,
-                films
-              } = data;
+      if (selectedUrl2) {
+        showLoadingText();
+        fetch(selectedUrl2)
+          .then(response => response.json())
+          .then(data => {
+            const {
+              name,
+              gender,
+              height,
+              mass,
+              hair_color: hairColor,
+              skin_color: skinColor,
+              eye_color: eyeColor,
+              films
+          } = data;
         
               const filmTitles = films.map(filmUrl => {
                 return fetch(filmUrl)
@@ -130,77 +162,83 @@ class Character{
                   const pictureURL = characterImageUrls[selectedUrl2] || "assets/star-wars-logo";
                   character2 = new Character(`${name}`,`${gender}`,`${mass}`,`${hairColor}`,`${height}`,`${skinColor}`,`${eyeColor}`,filmTitlesArr,`${pictureURL}`)
                   console.log(character2)
-                  document.getElementById("cardImage2").src=`${pictureURL}`
-                  document.getElementById("name2").innerHTML=`${name}`
-                  document.getElementById("name2").style.color="black";
-                  compareBtn.disabled=false;
+                  cardImage2.src=`${pictureURL}`
+                  name2.innerHTML=`${name}`
+                  name2.style.color="black";
+
+                  fetchCounter++;
+                  if(fetchCounter===2){
+                    hideLoadingText();
+                    compareBtn.disabled=false;
+                    fetchCounter=0;
+                  }
+                  
                 })
                 .catch(error => console.error(error));
             })
-            .catch(error => console.error(error));
-        } else {
-          infoContainer2.innerHTML = "";
-        }
+            .catch(error => {
+              loadingText.style.display = "block";
+              loadingText.innerHTML = "Failed to load information. Refresh the site and try again.";
+            });
+        } 
     });
         
     
     compareBtn.addEventListener("click", () => {
-      updateCharacter1Information();  
-      updateCharacter2Information();
+      updateCharacterInformation();  
       setGradients();  
     });
 
-    
-function updateCharacter1Information(){
-  document.getElementById("cardImage1").src=`${character1.pictureURL}`
-      document.getElementById("name1").innerHTML=`${character1.name}`
-      document.getElementById("gender1").innerHTML=`${character1.gender}`
-      document.getElementById("mass1").innerHTML=`${character1.mass}`  
-      document.getElementById("hairColor1").innerHTML=`${character1.hairColor}`
-      document.getElementById("height1").innerHTML=`${character1.height}`
-      document.getElementById("skinColor1").innerHTML=`${character1.skinColor}`
-      document.getElementById("eyeColor1").innerHTML=`${character1.eyeColor}`
 
-      const movies1 = document.getElementById("movies1")
-      movies1.innerHTML=""
+function updateCharacterInformation(){
+  // Update and set Character1 information
+  cardImage1.src=`${character1.pictureURL}`
+  name1.innerHTML=`${character1.name}`
+  gender1.innerHTML=`${character1.gender}`
+  mass1.innerHTML=`${character1.mass}`  
+  hairColor1.innerHTML=`${character1.hairColor}`
+  height1.innerHTML=`${character1.height}`
+  skinColor1.innerHTML=`${character1.skinColor}`
+  eyeColor1.innerHTML=`${character1.eyeColor}`
+
+  const movies1 = document.getElementById("movies1")
+  movies1.innerHTML=""
      
-      for(let i=0; i < character1.movies.length; i++) {
-        let li = document.createElement("li");
-        li.textContent = character1.movies[i];
-        movies1.appendChild(li);
-      }
-      let totalLi1 = document.createElement("li");
-      totalLi1.innerHTML = "Total: " + character1.movies.length;
-      movies1.append(totalLi1); 
-}
+  for(let i=0; i < character1.movies.length; i++) {
+    let li = document.createElement("li");
+    li.textContent = character1.movies[i];
+    movies1.appendChild(li);
+    }
+    let totalLi1 = document.createElement("li");
+    totalLi1.innerHTML = "Total: " + character1.movies.length;
+    movies1.append(totalLi1); 
 
-function updateCharacter2Information(){
-  document.getElementById("cardImage2").src=`${character2.pictureURL}`
-  document.getElementById("name2").innerHTML=`${character2.name}`
-  document.getElementById("gender2").innerHTML=`${character2.gender}`
-  document.getElementById("mass2").innerHTML=`${character2.mass}`
-  document.getElementById("hairColor2").innerHTML=`${character2.hairColor}`
-  document.getElementById("height2").innerHTML=`${character2.height}`
-  document.getElementById("skinColor2").innerHTML=`${character2.skinColor}`
-  document.getElementById("eyeColor2").innerHTML=`${character2.eyeColor}`
 
+  // Update and set Character2 information
+  cardImage2.src=`${character2.pictureURL}`
+  name2.innerHTML=`${character2.name}`
+  gender2.innerHTML=`${character2.gender}`
+  mass2.innerHTML=`${character2.mass}`
+  hairColor2.innerHTML=`${character2.hairColor}`
+  height2.innerHTML=`${character2.height}`
+  skinColor2.innerHTML=`${character2.skinColor}`
+  eyeColor2.innerHTML=`${character2.eyeColor}`
+  
   const movies2 = document.getElementById("movies2")
   movies2.innerHTML=""
- 
+    
   for(let i=0; i < character2.movies.length; i++) {
     let li = document.createElement("li");
     li.textContent = character2.movies[i];
     movies2.appendChild(li);
   }
-  let totalLi2 = document.createElement("li");
-  totalLi2.innerHTML = "Total: " + character2.movies.length;
-  movies2.append(totalLi2); 
-
+    let totalLi2 = document.createElement("li");
+    totalLi2.innerHTML = "Total: " + character2.movies.length;
+    movies2.append(totalLi2); 
 }
 
-
 function setGradients(){
-
+   
   if(character1.gender === character2.gender){
     document.getElementById("genderTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "green" + ")";
   } else {
@@ -208,43 +246,63 @@ function setGradients(){
   }
 
   if(+character1.mass > character2.mass){
-    document.getElementById("massTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
+    massTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
   } else if(+character2.mass > character1.mass) {
-    document.getElementById("massTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
+    massTexts.style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
   }  else {
-    document.getElementById("massTexts").style.background ="orange";
+    massTexts.style.background ="orange";
   }
 
   if(character1.hairColor === character2.hairColor){
-    document.getElementById("hairColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    hairColorTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
   } else {
-    document.getElementById("hairColorTexts").style.background ="orange";
+    hairColorTexts.style.background ="orange";
   }
   
   if(+character1.height > character2.height){
-    document.getElementById("heightTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
+    heightTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
   } else if(+character2.height > character1.height) {
-    document.getElementById("heightTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
-  } 
+    heightTexts.style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
+  } else {
+    heightTexts.style.background ="orange";
+  }
 
   if(character1.skinColor === character2.skinColor){
-    document.getElementById("skinColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    skinColorTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
   } else {
-    document.getElementById("skinColorTexts").style.background ="orange";
+    skinColorTexts.style.background ="orange";
   }
 
   if(character1.eyeColor === character2.eyeColor){
-    document.getElementById("eyeColorTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
+    eyeColorTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "green" + ")";
   } else {
-    document.getElementById("eyeColorTexts").style.background ="orange";
+    eyeColorTexts.style.background ="orange";
   }
 
   if(character1.movies.length > character2.movies.length){
-    document.getElementById("moviesTexts").style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
+    moviesTexts.style.background ="linear-gradient(to right, " + "green" + ", " + "red" + ")";
   } else if(character2.movies.length > character1.movies.length) {
-    document.getElementById("moviesTexts").style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
+    moviesTexts.style.background ="linear-gradient(to left, " + "green" + ", " + "red" + ")";
   } else {
-    document.getElementById("moviesTexts").style.background ="green"
+    moviesTexts.style.background ="green"
   }
+}
+
+function disableCompareBtn() {
+  if(characterSelect1.value === "" || characterSelect2.value===""){
+    getDataBtn.disabled=true;
+  } else {
+    getDataBtn.disabled=false;
+  }
+  compareBtn.disabled = true;
+}
+
+function showLoadingText() {
+  loadingText.style.display = "block";
+  loadingText.innerHTML = `Loading information...`
+}
+
+function hideLoadingText() {
+  loadingText.style.display = "none";
 }
 
